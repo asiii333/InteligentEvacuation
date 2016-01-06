@@ -8,8 +8,11 @@ import java.util.List;
  */
 public class Board {
 
-    private static List<List<Cell>> callBoard = new ArrayList<List<Cell>>();
-
+    private static List<List<Cell>> cellBoard = new ArrayList<List<Cell>>();
+    private static Cell startEscapeRoad;
+    private static Cell endEscapeRoad;
+    public static final int WIGHT = 100;
+    public static final int HEIGHT = 100;
     private static Board boardSingleton = null;
 
     private Board(){}
@@ -20,11 +23,36 @@ public class Board {
         }
         return boardSingleton;
     }
-    public List<List<Cell>> getBoard() {
-        return callBoard;
+
+    public static Cell getEndEscapeRoad() {
+        return endEscapeRoad;
     }
 
-    public void setBoard(List<List<Cell>> board) {
-        this.callBoard = board;
+    public static void setEndEscapeRoad(Cell endEscapeRoad) {
+        Board.endEscapeRoad = endEscapeRoad;
+    }
+
+    public static Cell getStartEscapeRoad() {
+        return startEscapeRoad;
+    }
+
+    public static void setStartEscapeRoad(Cell startEscapeRoad) {
+        Board.startEscapeRoad = startEscapeRoad;
+    }
+
+    public List<List<Cell>> getCellBoard() {
+        return cellBoard;
+    }
+
+    public void setCellBoard(List<List<Cell>> board) {
+        this.cellBoard = board;
+    }
+
+    public void reset(){
+        for(List<Cell> rowCell : cellBoard){
+            for(Cell cell : rowCell){
+                cell.reset();
+            }
+        }
     }
 }

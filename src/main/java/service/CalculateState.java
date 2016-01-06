@@ -1,4 +1,4 @@
-package controler;
+package service;
 
 import model.Board;
 
