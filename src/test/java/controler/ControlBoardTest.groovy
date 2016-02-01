@@ -8,7 +8,7 @@ import spock.lang.Specification
  * Created by Asia on 2016-01-06.
  */
 class ControlBoardTest extends Specification {
-    Board board  = Board.getInstance();
+    Board board  = new Board()
     ControlBoard control = new ControlBoard(board);
 
     def "CleanBoard"() {

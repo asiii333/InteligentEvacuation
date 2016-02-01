@@ -3,9 +3,6 @@ package utils;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-/**
- * Created by Tomasz on 2015-06-09.
- */
 public abstract class ClosingWindowListener implements WindowListener {
     @Override
     public void windowOpened(WindowEvent e) {

@@ -7,7 +7,7 @@ import model.Cell
  * Created by Asia on 2016-01-06.
  */
 class BoardServiceTest extends spock.lang.Specification {
-    Board board = new Board();
+    Board board = new Board()
     BoardService service = new BoardService(board);
     def maxHeight = service.boardHeight;
     def maxWidth = service.boardHeight;
@@ -166,7 +166,7 @@ class BoardServiceTest extends spock.lang.Specification {
                 service.cellBoard.get(0).get(maxHeight-2),
                 service.cellBoard.get(1).get(maxHeight-2),
                 service.cellBoard.get(2).get(maxHeight-1),
-                service.cellBoard.get(2).get(maxHeight-2)
+                service.cellBoard.get(2).get(maxHeight-2),
         ]
         when:
         service.setBorderNeighbourg()

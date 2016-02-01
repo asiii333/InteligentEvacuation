@@ -3,9 +3,6 @@ package utils;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-/**
- * Created by Tomasz on 2015-05-30.
- */
 public abstract class AbstractResizeComponentListener implements ComponentListener {
 
     @Override

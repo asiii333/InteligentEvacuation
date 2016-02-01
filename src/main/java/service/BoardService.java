@@ -17,6 +17,9 @@ public class BoardService {
     private int boardWidth;
     private int boardHeight;
 
+    CalculateState calState = new CalculateState();
+    CalculateEscapeRoad calEscapeRoad = new CalculateEscapeRoad();
+
     public BoardService(Board board){
         this.board = board;
         boardWidth = board.WIGHT;
@@ -34,8 +37,8 @@ public class BoardService {
         for(int i = 0; i < boardWidth; i++){
             List<Cell> cellRow = new ArrayList<Cell>(boardHeight);
             for (int j = 0; j< boardHeight; j++ ){
-                Material basicMaterial = new Unknown();
-                cellRow.add(new Cell(basicMaterial));
+                Cell cell = new Cell(new Unknown(), i, j);
+                cellRow.add(cell);
             }
             board.getCellBoard().add(cellRow);
         }
@@ -102,7 +105,10 @@ public class BoardService {
     }
 
     public void calculateState() {
-
+        calState.calculateState(board);
+    }
+    public void calculateEscpaeRoad() {
+        calEscapeRoad.calculateEscapeRoad(board);
     }
 
 

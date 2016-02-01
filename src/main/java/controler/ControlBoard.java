@@ -34,7 +34,8 @@ public class ControlBoard {
             board.reset();
     }
 
-    public void calculateNextState(){
+    public void calculateNextBoardState(){
         boardService.calculateState();
+        boardService.calculateEscpaeRoad();
     }
 }

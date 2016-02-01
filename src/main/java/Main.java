@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         setLookAndFeel();
 
-        Board board = Board.getInstance();
+        Board board = new Board();
         final ControlBoard controll = new ControlBoard(board);
 
         SwingUtilities.invokeLater(new Runnable() {

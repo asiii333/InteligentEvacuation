@@ -3,41 +3,37 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Asia on 2015-11-29.
- */
 public class Board {
 
-    private static List<List<Cell>> cellBoard = new ArrayList<List<Cell>>();
-    private static Cell startEscapeRoad;
-    private static Cell endEscapeRoad;
+    private List<List<Cell>> cellBoard = new ArrayList<List<Cell>>();
+    private  Cell startEscapeRoad;
+    private  Cell endEscapeRoad;
+    private  boolean safeEscapeRoad;
     public static final int WIGHT = 100;
     public static final int HEIGHT = 100;
-    private static Board boardSingleton = null;
 
-    private Board(){}
-
-    public static Board getInstance(){
-        if(boardSingleton == null) {
-            boardSingleton = new Board();
-        }
-        return boardSingleton;
-    }
-
-    public static Cell getEndEscapeRoad() {
+    public  Cell getEndEscapeRoad() {
         return endEscapeRoad;
     }
 
-    public static void setEndEscapeRoad(Cell endEscapeRoad) {
-        Board.endEscapeRoad = endEscapeRoad;
+    public  void setEndEscapeRoad(Cell endEscapeRoad) {
+        this.endEscapeRoad = endEscapeRoad;
     }
 
-    public static Cell getStartEscapeRoad() {
+    public  Cell getStartEscapeRoad() {
         return startEscapeRoad;
     }
 
-    public static void setStartEscapeRoad(Cell startEscapeRoad) {
-        Board.startEscapeRoad = startEscapeRoad;
+    public  void setStartEscapeRoad(Cell startEscapeRoad) {
+        this.startEscapeRoad = startEscapeRoad;
+    }
+
+    public  boolean isSafeEscapeRoad() {
+        return safeEscapeRoad;
+    }
+
+    public void setSafeEscapeRoad(boolean safeEscapeRoad) {
+        this.safeEscapeRoad = safeEscapeRoad;
     }
 
     public List<List<Cell>> getCellBoard() {
