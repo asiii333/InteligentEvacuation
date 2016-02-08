@@ -6,6 +6,7 @@ import java.util.List;
 public class Board {
 
     private List<List<Cell>> cellBoard = new ArrayList<List<Cell>>();
+    //private Graph doorGraph = new Graph();
     private  Cell startEscapeRoad;
     private  Cell endEscapeRoad;
     private  boolean safeEscapeRoad;
@@ -51,4 +52,5 @@ public class Board {
             }
         }
     }
+
 }

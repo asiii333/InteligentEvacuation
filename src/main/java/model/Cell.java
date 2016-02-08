@@ -21,8 +21,9 @@ public class Cell {
     private int smokeCounter;
     private int tempSmokeCounter;
     private boolean escapeRoad;
+    private boolean door;
     private boolean tempEscapeRoad;
-    private int x,y;
+    public int x,y;
 
     public Cell(Material material){
         state = NORMAL;
@@ -45,6 +46,10 @@ public class Cell {
         burnCounter = 3;
         smokeCounter = 3;
     }
+    public Cell(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     public Cell(Material material, int i, int j) {
         state = NORMAL;
@@ -57,8 +62,8 @@ public class Cell {
         smokeCounter = material.getConstantSmoke();
         tempSmokeCounter = material.getConstantSmoke();
         neighbors = new ArrayList<>();
-        x = i;
-        y = j;
+        this.x = i;
+        this.y = j;
     }
 
     public void reset(){
@@ -123,22 +128,6 @@ public class Cell {
         this.smokeCounter = smokeCounter;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public boolean isTempEscapeRoad() {
         return tempEscapeRoad;
     }
@@ -170,4 +159,26 @@ public class Cell {
     public void setTempState(State tempState) {
         this.tempState = tempState;
     }
+
+    public boolean isDoor() {
+        return door;
+    }
+
+    public void setDoor(boolean door) {
+        this.door = door;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cell)) return false;
+
+        Cell cell = (Cell) o;
+
+        return x == cell.x && y == cell.y;
+
+    }
+
+
 }

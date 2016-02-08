@@ -108,7 +108,7 @@ public class BoardService {
         calState.calculateState(board);
     }
     public void calculateEscpaeRoad() {
-        calEscapeRoad.calculateEscapeRoad(board);
+        calEscapeRoad.calculateEscapeRoad();
     }
 
 

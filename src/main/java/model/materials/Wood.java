@@ -7,7 +7,7 @@ import model.Material;
  */
 public class Wood extends Material{
     public Wood(){
-        setName("drewno");
+        setName("wood");
         setColor("brown");
         setConstantBurn(5);
     }
