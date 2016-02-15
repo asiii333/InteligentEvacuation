@@ -9,6 +9,7 @@ public class Wall extends Material {
     public Wall() {
         setName("wall");
         setColor("black");
-        setConstantBurn(Integer.MAX_VALUE);
+        setConstantBurn(150);
+        setConstantSmoke(150);
     }
 }

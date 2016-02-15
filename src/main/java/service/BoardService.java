@@ -2,7 +2,6 @@ package service;
 
 import model.Board;
 import model.Cell;
-import model.Material;
 import model.materials.Unknown;
 
 import java.util.ArrayList;
@@ -19,13 +18,32 @@ public class BoardService {
 
     CalculateState calState = new CalculateState();
     CalculateEscapeRoad calEscapeRoad = new CalculateEscapeRoad();
+    private GraphService graphService;
 
     public BoardService(Board board){
         this.board = board;
-        boardWidth = board.WIGHT;
-        boardHeight = board.WIGHT;
         cellBoard = board.getCellBoard();
+        graphService = new GraphService(board);
     }
+
+    public void cleanBoard(){
+        board.clean();
+    }
+    public void resetBoard(){
+        board.reset();
+    }
+
+    public void calculateNextBoardState(){
+        calculateState();
+        calculateEscpaeRoad();
+    }
+
+    public void initialize(int width, int height){
+        boardWidth = width;
+        boardHeight = height;
+        initializeBoard();
+    }
+
 
     public void initializeBoard(){
         fullfillBoard();
@@ -63,7 +81,7 @@ public class BoardService {
 
     private void setBorderNeighbourg() {
         //inicjalizacja sasiadow dla komorek brzegowych poziomych
-        for(int i = 0; i < boardWidth; i++){
+        for(int i = 0; i < boardHeight; i++){
             int max = boardWidth-1;
             int min = 0;
             if(i != min){
@@ -72,7 +90,7 @@ public class BoardService {
                 cellBoard.get(max).get(i).getNeighbors().add(cellBoard.get(max-1).get(i-1));
                 cellBoard.get(max).get(i).getNeighbors().add(cellBoard.get(max).get(i-1));
             }
-            if(i != max){
+            if(i != boardHeight - 1){
                 cellBoard.get(min).get(i).getNeighbors().add(cellBoard.get(min+1).get(i+1));
                 cellBoard.get(min).get(i).getNeighbors().add(cellBoard.get(min).get(i+1));
                 cellBoard.get(max).get(i).getNeighbors().add(cellBoard.get(max-1).get(i+1));
@@ -84,7 +102,7 @@ public class BoardService {
         }
 
         //inicjalizacja sasiadow dla komorek brzegowych pionowych
-        for(int i=1; i< boardHeight-2; i++ ){
+        for(int i=1; i < boardWidth-2; i++ ){
             int max = boardHeight-1;
             int min = 0;
             if(i!=min){
@@ -93,7 +111,7 @@ public class BoardService {
                 cellBoard.get(i).get(max).getNeighbors().add(cellBoard.get(i-1).get(max-1));
                 cellBoard.get(i).get(max).getNeighbors().add(cellBoard.get(i-1).get(max));
             }
-            if(i != max){
+            if(i != boardWidth-2){
                 cellBoard.get(i).get(min).getNeighbors().add(cellBoard.get(i+1).get(min+1));
                 cellBoard.get(i).get(min).getNeighbors().add(cellBoard.get(i+1).get(min));
                 cellBoard.get(i).get(max).getNeighbors().add(cellBoard.get(i+1).get(max-1));
@@ -103,12 +121,14 @@ public class BoardService {
             cellBoard.get(i).get(max).getNeighbors().add(cellBoard.get(i).get(max-1));
         }
     }
-
+    public void initializeGraphBeforeStart(){
+        graphService.initializeGraph();
+    }
     public void calculateState() {
         calState.calculateState(board);
     }
     public void calculateEscpaeRoad() {
-        calEscapeRoad.calculateEscapeRoad();
+        graphService.setDownShortesPath();
     }
 
 

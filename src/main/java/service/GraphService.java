@@ -3,12 +3,15 @@ package service;
 import model.Board;
 import model.Cell;
 import model.Room;
+import model.State;
 import service.graph.AdjacentListGraph;
 import service.graph.Edge;
 import service.graph.FordaBellmana;
 import service.graph.IGraph;
 
 import java.util.*;
+
+import static model.State.WALL;
 
 /**
  * Created by Asia on 2016-02-06.
@@ -23,9 +26,10 @@ public class GraphService {
     private List<Integer> shortesPath;
     private int startCellIndex;
     private int endCellIndex;
-    public IGraph<Integer> graph;
+    private IGraph<Integer> graph;
 
     public GraphService(Board board){
+        this.graph = board.graph;
         this.board = board;
     }
     public void initializeGraph(){
@@ -33,25 +37,22 @@ public class GraphService {
         findAllRooms();
         initializeDoorGraph();
     }
-    public void findAllCornerAndDoor(){
+    private void findAllCornerAndDoor(){
         int doorCounter = 0;
         for(List<Cell> cellRow : board.getCellBoard() ){
             for(Cell cell: cellRow){
                 List<Cell> wallNeighList = getWallNeighList(cell);
                 findCorner( wallNeighList,cell);
-                doorCounter = findDoor(cell, doorCounter);
+                findDoor(cell, doorCounter);
             }
         }
     }
 
-    private int findDoor(Cell cell, int doorCounter) {
-        if(WALL_NAME.equals(cell.getMaterial().getName()) && cell.isDoor() &&
-                !cell.equals(board.getEndEscapeRoad()) &&  !cell.equals(board.getStartEscapeRoad()) ){
+    private void  findDoor(Cell cell, int doorCounter) {
+        if(cell.isDoor() && !cell.equals(board.getEndEscapeRoad()) &&  !cell.equals(board.getStartEscapeRoad()) ){
             doorsMap.put(doorCounter, cell);
             doorCounter ++;
         }
-
-        return doorCounter;
     }
 
     private void initializeDoorGraph(){
@@ -131,7 +132,7 @@ public class GraphService {
 
         for(int i = fromX + 1 ; i < toX ; i ++){
             for(int j = fromY + 1 ; j < toY ; j ++ ){
-                if(WALL_NAME.equals(board.getCellBoard().get(i).get(j).getMaterial().getName())){
+                if(WALL.equals(board.getCellBoard().get(i).get(j).getState()) || board.getCellBoard().get(i).get(j).isDoor()){
                     return 0;
                 }
             }
@@ -143,7 +144,7 @@ public class GraphService {
     }
 
 
-    public void countShortesPath(){
+    public void setDownShortesPath(){
         int distance = fordBellamn.run(startCellIndex,endCellIndex);
         shortesPath = fordBellamn.getPath(startCellIndex,endCellIndex);
         denoteEscapeDoor();
@@ -240,7 +241,7 @@ public class GraphService {
     private List<Cell> getWallNeighList(Cell cell) {
         List<Cell> wallNeighList = new ArrayList<>(8);
         for(Cell neigh : cell.getNeighbors()){
-            if(WALL_NAME.equals(neigh.getMaterial().getName())) {
+            if(WALL.equals(neigh.getState())) {
                 wallNeighList.add(neigh);
             }
         }
@@ -248,7 +249,7 @@ public class GraphService {
     }
 
     private void findCorner(List<Cell> wallNeighList, Cell examCell){
-        if(wallNeighList.size() < 2 || wallNeighList.size() >= 5 || !WALL_NAME.equals(examCell.getMaterial().getName())){
+        if(wallNeighList.size() < 2 || wallNeighList.size() >= 5 || !WALL.equals(examCell.getState())){
             return;
         }
         int xEqualsCount = 0;

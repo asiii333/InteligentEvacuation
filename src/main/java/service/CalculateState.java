@@ -22,8 +22,12 @@ public class CalculateState {
         for(List<Cell> cellRow : board.getCellBoard()){
             for(Cell cell: cellRow){
                 switch (cell.getState()){
-                    case NORMAL : checkCellForNormalState(cell);
-                    case BURN : checkCellForBurnState(cell);
+                    case NORMAL :
+                        checkCellForNormalState(cell);
+                        break;
+                    case BURN :
+                        checkCellForBurnState(cell);
+                        break;
                 }
             }
         }

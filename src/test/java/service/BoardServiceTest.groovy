@@ -7,10 +7,18 @@ import model.Cell
  * Created by Asia on 2016-01-06.
  */
 class BoardServiceTest extends spock.lang.Specification {
+
     Board board = new Board()
     BoardService service = new BoardService(board);
-    def maxHeight = service.boardHeight;
-    def maxWidth = service.boardHeight;
+    def maxWidth;
+    def maxHeight;
+    def setup(){
+        service.boardWidth = 100;
+        service.boardHeight = 50;
+        maxWidth = 100;
+        maxHeight = 50;
+    }
+
 
     def "test board after fulfill - is fill by Cell"(){
         when:
@@ -22,16 +30,14 @@ class BoardServiceTest extends spock.lang.Specification {
                     it != null
                 }
             }
-        service.cellBoard.size() == 100
-        service.cellBoard.get(0).size() == 100
     }
 
     def "test board after fulfill - board size"(){
         when:
             service.fullfillBoard()
         then:
-            service.cellBoard.size() == 100
-            service.cellBoard.get(0).size() == 100
+        service.cellBoard.size() ==  service.boardWidth
+        service.cellBoard.get(0).size() == service.boardHeight
     }
 
     def "test set main neighbourg"(){
@@ -94,7 +100,7 @@ class BoardServiceTest extends spock.lang.Specification {
         when:
         service.setBorderNeighbourg()
         then:
-        service.cellBoard.get(maxHeight-1).get(maxHeight-1).getNeighbors().sort() == suscpectNeigh.sort();
+        service.cellBoard.get(maxWidth-1).get(maxHeight-1).getNeighbors().sort() == suscpectNeigh.sort();
     }
 
     def "test set border neighbourg - left down narrow"(){
@@ -108,7 +114,7 @@ class BoardServiceTest extends spock.lang.Specification {
         when:
         service.setBorderNeighbourg()
         then:
-        service.cellBoard.get(maxHeight-1).get(0).getNeighbors().sort() == suscpectNeigh.sort();
+        service.cellBoard.get(maxWidth-1).get(0).getNeighbors().sort() == suscpectNeigh.sort();
     }
 
     def "test set border - up border"(){

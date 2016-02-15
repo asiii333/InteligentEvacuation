@@ -13,11 +13,12 @@ class GraphServiceTest extends Specification {
 
     Board board = new Board();
     List<List<Cell>> cellBoard;
-    //CalculateState calculateState = new CalculateState();
     BoardService boardService = new BoardService(board);
     GraphService graphService = new GraphService(board);
 
     def setup(){
+        boardService.boardWidth = 100;
+        boardService.boardHeight = 50;
         boardService.initializeBoard();
         cellBoard = boardService.cellBoard;
     }
@@ -83,7 +84,7 @@ class GraphServiceTest extends Specification {
         graphService.cornerList.contains(cellBoard.get(4).get(4));
     }
 
-    def "FindAllCorner"() {
+    def "FindAllDoor"() {
 
     }
 

@@ -15,27 +15,14 @@ import java.util.List;
  * Created by Asia on 2015-11-29.
  */
 public class ControlBoard {
-    private Board board;
+    public Board board;
     private  List<List<Cell>> cellBoard;
     private BoardService boardService;
-    private int boardWidth;
-    private int boardHeight;
 
     public ControlBoard(Board board) {
         this.board = board;
-        boardWidth = board.WIGHT;
-        boardHeight = board.WIGHT;
         boardService = new BoardService(board);
-        boardService.initializeBoard();
-        cellBoard = board.getCellBoard();
     }
 
-    public void cleanBoard(){
-            board.reset();
-    }
 
-    public void calculateNextBoardState(){
-        boardService.calculateState();
-        boardService.calculateEscpaeRoad();
-    }
 }

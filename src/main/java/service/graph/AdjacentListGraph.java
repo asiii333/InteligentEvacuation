@@ -5,10 +5,10 @@ import java.util.*;
 
 public class AdjacentListGraph implements IGraph<Integer> {
 
-    Edge [][] list;
-    Set<Edge> setEdges;
-    int verticesNumber;
-    int firstVertexId;
+    public Edge [][] list;
+    public Set<Edge> setEdges;
+    public int verticesNumber;
+    public int firstVertexId;
 
     public AdjacentListGraph(List<Edge> data, int verticesNumber) {
         this.verticesNumber = verticesNumber;

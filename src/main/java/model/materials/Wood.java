@@ -9,6 +9,7 @@ public class Wood extends Material{
     public Wood(){
         setName("wood");
         setColor("brown");
-        setConstantBurn(5);
+        setConstantBurn(6);
+        setConstantSmoke(5);
     }
 }

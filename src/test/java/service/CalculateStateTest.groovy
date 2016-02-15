@@ -13,12 +13,16 @@ import java.text.Normalizer
 class CalculateStateTest extends Specification {
     Board board = new Board();
     List<List<Cell>> cellBoard;
-    CalculateState calculateState = new CalculateState();
-    BoardService service = new BoardService(board);
+    CalculateState calculateState;
+    BoardService service;
 
     def setup(){
+        calculateState = new CalculateState();
+        service = new BoardService(board);
+        service.boardWidth = 100;
+        service.boardHeight = 50;
         service.initializeBoard();
-        cellBoard = service.cellBoard;
+        cellBoard = board.cellBoard;
     }
     def "CalculateState - burn state one execution"() {
         given:

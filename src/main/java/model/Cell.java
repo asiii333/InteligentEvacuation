@@ -3,7 +3,9 @@ package model;
 import model.materials.Unknown;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static model.State.*;
 
@@ -51,7 +53,7 @@ public class Cell {
         this.y = y;
     }
 
-    public Cell(Material material, int i, int j) {
+    public Cell(Material material, int x, int y) {
         state = NORMAL;
         tempState = state;
         this.material = material;
@@ -62,8 +64,8 @@ public class Cell {
         smokeCounter = material.getConstantSmoke();
         tempSmokeCounter = material.getConstantSmoke();
         neighbors = new ArrayList<>();
-        this.x = i;
-        this.y = j;
+        this.x = x;
+        this.y = y;
     }
 
     public void reset(){
@@ -73,6 +75,12 @@ public class Cell {
         setTempBurnCounter(material.getConstantBurn());
         setSmokeCounter(material.getConstantBurn());
         setTempSmokeCounter(material.getConstantBurn());
+        door = false;
+    }
+    public void clean() {
+        if(!WALL.equals(state) && !isDoor()){
+            reset();
+        }
     }
     public void update(){
         state = tempState;
@@ -179,6 +187,4 @@ public class Cell {
         return x == cell.x && y == cell.y;
 
     }
-
-
 }

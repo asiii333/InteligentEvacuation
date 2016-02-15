@@ -6,5 +6,8 @@ package model;
 public enum State {
     BURN,
     DEAD,
-    NORMAL
+    NORMAL,
+    WALL,
+    DOOR,
+    PATH_START, PATH_END, ESCAPE
 }

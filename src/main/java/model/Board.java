@@ -1,5 +1,7 @@
 package model;
 
+import service.graph.IGraph;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +12,11 @@ public class Board {
     private  Cell startEscapeRoad;
     private  Cell endEscapeRoad;
     private  boolean safeEscapeRoad;
-    public static final int WIGHT = 100;
-    public static final int HEIGHT = 100;
+    public IGraph<Integer> graph;
+/*    public int weight;
+    public int height;*/
+/*    public static final int WIGHT = 100;
+    public static final int HEIGHT = 100;*/
 
     public  Cell getEndEscapeRoad() {
         return endEscapeRoad;
@@ -49,6 +54,14 @@ public class Board {
         for(List<Cell> rowCell : cellBoard){
             for(Cell cell : rowCell){
                 cell.reset();
+            }
+        }
+    }
+
+    public void clean(){
+        for(List<Cell> rowCell : cellBoard){
+            for(Cell cell : rowCell){
+                cell.clean();
             }
         }
     }
