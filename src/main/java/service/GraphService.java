@@ -4,13 +4,11 @@ import model.Board;
 import model.Cell;
 import model.Room;
 import model.State;
-import service.graph.AdjacentListGraph;
-import service.graph.Edge;
-import service.graph.FordaBellmana;
-import service.graph.IGraph;
+import service.graph.*;
 
 import java.util.*;
 
+import static model.State.ESCAPE;
 import static model.State.WALL;
 
 /**
@@ -37,18 +35,20 @@ public class GraphService {
         findAllRooms();
         initializeDoorGraph();
     }
+    private int doorCounter = 0;
+
     private void findAllCornerAndDoor(){
-        int doorCounter = 0;
+        doorCounter = 0;
         for(List<Cell> cellRow : board.getCellBoard() ){
             for(Cell cell: cellRow){
                 List<Cell> wallNeighList = getWallNeighList(cell);
                 findCorner( wallNeighList,cell);
-                findDoor(cell, doorCounter);
+                findDoor(cell);
             }
         }
     }
 
-    private void  findDoor(Cell cell, int doorCounter) {
+    private void  findDoor(Cell cell) {
         if(cell.isDoor() && !cell.equals(board.getEndEscapeRoad()) &&  !cell.equals(board.getStartEscapeRoad()) ){
             doorsMap.put(doorCounter, cell);
             doorCounter ++;
@@ -58,7 +58,7 @@ public class GraphService {
     private void initializeDoorGraph(){
         List<Edge> data = createDoorGraph();
         int verticesNumber = doorsMap.size();
-        graph = new AdjacentListGraph(data, verticesNumber);
+        graph = new MatrixGraph(data, verticesNumber);
         fordBellamn = new FordaBellmana(graph);
 
     }
@@ -68,7 +68,7 @@ public class GraphService {
         startCellIndex = doorsMap.size();
         doorsMap.put(startCellIndex, board.getStartEscapeRoad());
         endCellIndex = doorsMap.size();
-        doorsMap.put(endCellIndex, board.getStartEscapeRoad());
+        doorsMap.put(endCellIndex, board.getEndEscapeRoad());
 
         for(Integer key : doorsMap.keySet()){
             for(Integer insideKey : doorsMap.keySet()){
@@ -153,6 +153,8 @@ public class GraphService {
     private void denoteEscapeDoor() {
         for(Integer doorKey: shortesPath){
             doorsMap.get(doorKey).setIsEscapeRoad(true);
+            doorsMap.get(doorKey).setState(ESCAPE);
+            doorsMap.get(doorKey).setTempState(ESCAPE);
         }
     }
 
@@ -221,7 +223,7 @@ public class GraphService {
 
         Cell nearestXCell = cellWithTheSameX.get(0);
         for(Cell otherCorner : cellWithTheSameX){
-           if( nearestXCell.x < otherCorner.x  ){
+           if( nearestXCell.y > otherCorner.y  ){
                nearestXCell = otherCorner;
            }
         }
@@ -229,7 +231,7 @@ public class GraphService {
 
         Cell nearestYCell = cellWithTheSameY.get(0);
         for(Cell otherCorner : cellWithTheSameY){
-            if( nearestYCell.y > otherCorner.y  ){
+            if( nearestYCell.x > otherCorner.x  ){
                 nearestYCell = otherCorner;
             }
         }

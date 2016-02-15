@@ -85,7 +85,13 @@ class GraphServiceTest extends Specification {
     }
 
     def "FindAllDoor"() {
-
+        given:
+        create2BigRoomWithDoor()
+        graphService.board.cellBoard.get(2).get(9).setDoor(true);
+        when:
+        graphService.findAllCornerAndDoor()
+        then:
+        graphService.doorsMap.size() == 3
     }
 
     def "FindRoom"() {
@@ -124,6 +130,21 @@ class GraphServiceTest extends Specification {
         graphService.initializeDoorGraph();
         then:
         graphService.graph.getEdges().size() == 4
+    }
+
+    def "countShortestPath"(){
+        given:
+        create2BigRoomWithDoor()
+        graphService.board.setEndEscapeRoad(cellBoard.get(0).get(1));
+        graphService.board.setStartEscapeRoad(cellBoard.get(1).get(6));
+        graphService.findAllCornerAndDoor();
+        graphService.findAllRooms();
+        graphService.initializeDoorGraph();
+        when:
+        graphService.setDownShortesPath()
+        then:
+        graphService.shortesPath.size() == 3
+
     }
 
 

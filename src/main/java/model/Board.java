@@ -8,7 +8,8 @@ import java.util.List;
 public class Board {
 
     private List<List<Cell>> cellBoard = new ArrayList<List<Cell>>();
-    //private Graph doorGraph = new Graph();
+    private State prevStartState;
+    private State prevEndState;
     private  Cell startEscapeRoad;
     private  Cell endEscapeRoad;
     private  boolean safeEscapeRoad;
@@ -66,4 +67,19 @@ public class Board {
         }
     }
 
+    public State getPrevEndState() {
+        return prevEndState;
+    }
+
+    public void setPrevEndState(State prevEndState) {
+        this.prevEndState = prevEndState;
+    }
+
+    public State getPrevStartState() {
+        return prevStartState;
+    }
+
+    public void setPrevStartState(State prevStartState) {
+        this.prevStartState = prevStartState;
+    }
 }

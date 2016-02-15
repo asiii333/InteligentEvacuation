@@ -17,7 +17,6 @@ public class BoardService {
     private int boardHeight;
 
     CalculateState calState = new CalculateState();
-    CalculateEscapeRoad calEscapeRoad = new CalculateEscapeRoad();
     private GraphService graphService;
 
     public BoardService(Board board){

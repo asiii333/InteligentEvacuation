@@ -2,11 +2,7 @@ package controler;
 
 import model.Board;
 import model.Cell;
-import model.Material;
-import model.materials.Unknown;
 import service.BoardService;
-import service.CalculateEscapeRoad;
-import service.CalculateState;
 
 import java.util.ArrayList;
 import java.util.List;
