@@ -72,50 +72,143 @@ public class GraphService {
 
         for(Integer key : doorsMap.keySet()){
             for(Integer insideKey : doorsMap.keySet()){
-                if(key != insideKey) {
-                    int distance = countDistances(doorsMap.get(key), doorsMap.get(insideKey));
-                    if (distance > 0) {
+                if(key != insideKey &&  !isKeyEqualsEnding(key, insideKey)) {
+
+                    /*Room room = findRoomBeetwen(doorsMap.get(key), doorsMap.get(insideKey));
+                    if(room != null){
+                        int distance = countDistances(doorsMap.get(key), doorsMap.get(insideKey));
                         Edge edge = new Edge(key, insideKey, distance);
-                        Room room = findRoomBeetwen(doorsMap.get(key), doorsMap.get(insideKey));
                         edge.room = room;
                         edgeList.add(edge);
-
                     }
+
+                }else if(key != insideKey && isKeyEqualsEnding(key,  insideKey)){*/
+                   if( findConnection(doorsMap.get(key), doorsMap.get(insideKey))){
+                       Room room = findRoomContainsEndings(doorsMap.get(key), doorsMap.get(insideKey));
+                       int distance = countDistances(doorsMap.get(key), doorsMap.get(insideKey));
+                       Edge edge = new Edge(key, insideKey, distance);
+                       edge.room = room;
+                       edgeList.add(edge);
+                   }
                 }
             }
 
-        }
 
+
+        }
         return edgeList;
     }
 
+    private Room findRoomContainsEndings(Cell cell, Cell cell1) {
+//todo
+        //todo -> poprawic obliczanie grafu - uzaleznic je od ognia
+        return null;
+    }
+
+    private boolean findConnection(Cell cell1, Cell cell2) {
+
+        int counterX =  cell1.x <= cell2.x ? 1 : -1;
+        int counterY =  cell1.y <= cell2.y ? 1 : -1;
+
+        boolean lookingForPath = true;
+        int x = cell1.x;
+        int y = cell1.y;
+
+        while(lookingForPath){
+            if(x != cell2.x){
+              x += counterX;
+            }
+            if(y != cell2.y){
+                y += counterY;
+            }
+            if(x == cell2.x && y == cell2.y){
+                lookingForPath = false;
+                continue;
+            }
+            if(board.getCellBoard().get(x).get(y).getState().equals(WALL) ||
+                    board.getCellBoard().get(x).get(y).isDoor()){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    private boolean isKeyEqualsEnding(int key, int insideKey){
+       if( insideKey == endCellIndex
+                || insideKey == startCellIndex
+                || key == endCellIndex
+                || key == startCellIndex) {
+           return true;
+       }
+        return false;
+    }
     private Room findRoomBeetwen(Cell target, Cell source) {
+
         for(Room room : roomsList){
             int equalXTarget = 0;
             int equalYTarget = 0;
             int equalXSource = 0;
             int equalYSource = 0;
             for(Cell corner : room.cornerList){
+                if(corner.x == source.x){
+                    equalXSource++;
+                }
+                if(corner.y == source.y){
+                    equalYSource++;
+                }
                 if(corner.x == target.x){
                     equalXTarget++;
                 }
                 if(corner.y == target.y){
                     equalYTarget++;
                 }
-                if(corner.x == source.x){
-                    equalXTarget++;
-                }
-                if(corner.y == source.y){
-                    equalYTarget++;
-                }
             }
-            if((equalXTarget == 2 || equalXTarget == 2) && (equalYTarget == 2 || equalYTarget == 2)){
+            if((equalXSource == 2 || equalYSource == 2) && (equalXTarget == 2 || equalYTarget == 2)){
+                if(equalXSource == 2){
+                   if(!isRoomWallContainDoorX(room, source.x, source.y)){
+                       continue;
+                   }
+                }
+                if(equalYSource == 2){
+                    if(!isRoomWallContainDoorY(room, source.x, source.y)){
+                        continue;
+                    }
+                }
+                if(equalXTarget == 2){
+                    if(!isRoomWallContainDoorX(room, target.x, target.y)){
+                        continue;
+                    }
+                }
+                if(equalYTarget == 2){
+                    if(!isRoomWallContainDoorY(room, target.x, target.y)){
+                        continue;
+                    }
+                }
                 return room;
             }
         }
         return null;
     }
-
+    private boolean isRoomWallContainDoorX(Room room, int x, int y){
+        List<Cell> cell1 = room.sideMap.get(x);
+        int fromY = cell1.get(0).y > cell1.get(1).y ? cell1.get(0).y : cell1.get(1).y;
+        int toY = cell1.get(0).y < cell1.get(1).y ? cell1.get(0).y : cell1.get(1).y;
+        if(y <= toY &&  y >= fromY ){
+            return true;
+        }
+        return false;
+    }
+    private boolean isRoomWallContainDoorY(Room room, int x, int y){
+        List<Cell> cell1 = room.sideMap.get(y);
+        int fromX = cell1.get(0).x > cell1.get(1).x ? cell1.get(0).x : cell1.get(1).x;
+        int toX = cell1.get(0).x < cell1.get(1).x ? cell1.get(0).x : cell1.get(1).x;
+        if(x <= toX &&  x >= fromX ){
+            return true;
+        }
+        return false;
+    }
     /**
      * klasa liczy dystan miedzy podanymi komorakmi,
      * jesli istaniej polacznie >0 jesli brak zwraca 0
@@ -130,13 +223,13 @@ public class GraphService {
         int fromY = cell1.y <= cell2.y ? cell1.y : cell2.y;
         int toY = cell1.y >= cell2.y ? cell1.x : cell2.y;
 
-        for(int i = fromX + 1 ; i < toX ; i ++){
+/*        for(int i = fromX + 1 ; i < toX ; i ++){
             for(int j = fromY + 1 ; j < toY ; j ++ ){
                 if(WALL.equals(board.getCellBoard().get(i).get(j).getState()) || board.getCellBoard().get(i).get(j).isDoor()){
                     return 0;
                 }
             }
-        }
+        }*/
 
         int distance = (toX - fromX) + (toY - fromY);
 

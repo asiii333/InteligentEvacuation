@@ -1,5 +1,6 @@
 package gui;
 
+import model.Cell;
 import service.BoardService;
 import service.BoardServiceGUI;
 
@@ -55,8 +56,9 @@ public class GUI  extends JPanel implements ActionListener, ChangeListener {
      * @param container to which GUI and boards is added
      */
     public void initialize(Container container) {
+
         container.setLayout(new BorderLayout());
-        container.setSize(new Dimension(1024, 768));
+        container.setSize(new Dimension(1024, 668));
 
         JPanel buttonPanel = new JPanel();
 

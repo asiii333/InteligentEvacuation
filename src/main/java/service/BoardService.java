@@ -26,9 +26,25 @@ public class BoardService {
     }
 
     public void cleanBoard(){
+        if(board.getStartEscapeRoad() != null){
+            board.getStartEscapeRoad().setState(board.getPrevStartState());
+        }
+        if(board.getEndEscapeRoad() != null){
+            board.getEndEscapeRoad().setState(board.getPrevEndState());
+        }
+        board.setEndEscapeRoad(null);
+        board.setStartEscapeRoad(null);
         board.clean();
     }
     public void resetBoard(){
+        if(board.getStartEscapeRoad() != null){
+            board.getStartEscapeRoad().setState(board.getPrevStartState());
+        }
+        if(board.getEndEscapeRoad() != null){
+            board.getEndEscapeRoad().setState(board.getPrevEndState());
+        }
+        board.setEndEscapeRoad(null);
+        board.setStartEscapeRoad(null);
         board.reset();
     }
 
@@ -72,7 +88,7 @@ public class BoardService {
                 neighbors.add(cellBoard.get(i+1).get(j-1));
                 neighbors.add(cellBoard.get(i-1).get(j+1));
                 neighbors.add(cellBoard.get(i-1).get(j));
-                neighbors.add(cellBoard.get(i-1).get(j-1));
+                neighbors.add(cellBoard.get(i -1).get(j-1));
                 cellBoard.get(i).get(j).setNeighbors(neighbors);
             }
         }

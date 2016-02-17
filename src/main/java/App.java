@@ -21,7 +21,7 @@ public class App extends JFrame {
         gof = new GUI(this, service);
         gof.initialize(this.getContentPane());
 
-        this.setSize(1024, 768);
+        this.setSize(1024, 668);
         this.setVisible(true);
     }
 

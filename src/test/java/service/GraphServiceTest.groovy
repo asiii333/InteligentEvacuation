@@ -137,9 +137,7 @@ class GraphServiceTest extends Specification {
         create2BigRoomWithDoor()
         graphService.board.setEndEscapeRoad(cellBoard.get(0).get(1));
         graphService.board.setStartEscapeRoad(cellBoard.get(1).get(6));
-        graphService.findAllCornerAndDoor();
-        graphService.findAllRooms();
-        graphService.initializeDoorGraph();
+        graphService.initializeGraph();
         when:
         graphService.setDownShortesPath()
         then:
